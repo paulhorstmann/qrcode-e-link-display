@@ -1,0 +1,342 @@
+
+$fst-action-color: #007AFF
+$fst-action-color-dark: #046ddd
+
+a, i::selection
+    background: transparent
+
+.root
+    display: fixed
+    overflow: hidden
+
+.btn-secondary
+    background: #7c7c7c!important
+
+h1
+    font: 23px
+
+i
+    cursor: pointer
+
+.logo
+    margin: 25px auto 20px
+
+    .logo-left-site
+        font-size: 2rem
+        line-height: 1
+
+.nav-link
+    color: #111
+    font-size: 1.75rem
+    display: flex
+    align-items: center
+
+    .active
+        color: #2e7bd3!important
+
+    img
+        height: 40px
+        width: auto
+        margin-right: 10px
+
+.display-info
+    .mode
+        .radio-inp
+            display: flex
+            align-items: baseline
+
+#viewer-pages
+
+    height: 70vh
+    padding: 15px 10px
+    overflow: auto
+    overflow-x: hidden
+
+    &::-webkit-scrollbar
+        width: 10px
+        transition: all 0.5s
+
+    &::-webkit-scrollbar-track
+        background: #E6E6E6
+        border-radius: 5px
+
+    &::-webkit-scrollbar-thumb
+        background: #BFBFBF
+        border-radius: 5px
+
+    &::-webkit-scrollbar-thumb:hover
+        background: #8C8C8C
+        cursor: pointer
+
+    &::-webkit-scrollbar:hover
+        width: 15px
+
+    #viewer-pages-loader
+        margin: 200px auto
+
+    .viewer-page
+        display: flex
+        justify-items: center
+        flex-direction: column
+        height: 300px
+
+        margin: 40px 0 0
+        padding: 20px
+        background: #f8f8f8
+        border-radius: 10px
+        color: #505050
+        box-shadow: 0 .2rem 1rem rgba(0,0,0,0.1)
+        transition: all 0.2s ease-in
+
+        background-image: url('../img/icon/link.svg')
+        background-repeat: no-repeat
+        background-origin: content-box
+        background-position: center
+        background-size: 180px
+
+        &:hover
+            .actions
+                transform: scale(1)
+        .info
+            display: flex
+            position: relative
+
+            .num
+                margin-right: 5px
+
+        &:first-child
+            margin-top: 5px
+
+        .actions
+            transition: all 0.2s ease-in
+            display: flex
+            margin: auto
+            padding: 0
+            background: #ffffffea
+            transform: scale(0)
+            border-radius: 40px
+
+            i
+                position: relativ
+                top: -2px
+                margin: 0 5px
+                padding: 5px
+                border-radius: 50%
+                transition: 0.2s ease-in
+                font-size: 40px
+
+                &:hover
+                    background: #dadada
+
+                &:first-child
+                    margin-left: 0
+
+                &:last-child
+                    margin-right: 0
+
+    .add
+        display: flex
+        justify-content: center
+        align-items: center
+        background-image: none
+
+        i
+            font-size: 75px
+            padding: 3.5px
+            border-radius: 50%
+
+            &:hover
+                background: #dadada
+
+.overlayer
+    display: none
+    position: fixed
+    top: 0
+    left: 0
+    width: 100vw
+    height: 100vh
+    padding: 20px
+    background: #ffffff
+    background-color: rgba(255,255,255,0.9)
+    backdrop-filter: blur(5px)
+    transition: display 0.2s ease-in-out
+
+.content-box
+    position: fixed
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    max-height: 90vh
+    max-width: 1200px
+    min-width: 50vw
+    overflow-x: hidden
+    padding: 25px
+    border-radius: 20px
+    box-shadow: 0 .2rem 1rem rgba(0,0,0,0.1)
+    background: #ffffff
+    transition: all 0.2s ease-in
+
+    &::-webkit-scrollbar
+        position: relative
+        right: 5px
+
+        width: 10px
+        transition: all 0.5s
+
+        border: 5px solid transparent
+
+    &::-webkit-scrollbar-track
+        background: #E6E6E6
+        border-radius: 5px
+
+    &::-webkit-scrollbar-thumb
+        background: #BFBFBF
+        border-radius: 5px
+
+    &::-webkit-scrollbar-thumb:hover
+        background: #8C8C8C
+        cursor: pointer
+
+    &::-webkit-scrollbar:hover
+        width: 15px
+
+    .new-site
+        overflow: auto
+        overflow-x: hidden
+        padding: 0 15px
+
+        .header
+            display: flex
+            justify-content: space-between
+            width: 100%
+            align-items: center
+
+            h2
+
+            i
+                font-size: 27px
+                padding: 7.5px
+                border-radius: 50%
+                transition: all 0.2s ease-in
+
+                &:hover
+                    background: #f0f0f0
+
+        .create-site-nav
+            display: flex
+            width: 100%
+            padding: 25px 0 10px 0
+            list-style-type: none
+            overflow: auto
+            transition: all 0.5s
+
+            &::after
+                content: ''
+                width: 20px
+
+            .create-site-nav-tab
+                display: flex
+                align-items: center
+                margin: 0 10px
+                padding: 5px 20px
+                border-radius: 10px
+                color: #111
+                background: #F6F6F6
+                outline: none
+                font-size: 20px
+                white-space: nowrap
+                text-decoration: none
+                border: solid #F6F6F6 2px
+                transition: all 0.2s ease-in
+                cursor: pointer
+
+                &:first-child
+                    margin-left: 0
+
+                &:hover
+                    border: solid #cccccc 2px
+                    box-shadow: 0 .2rem .75rem #cccccc0d
+
+                img
+                    height: 40px
+                    width: auto
+                    margin-right: 10px
+
+            .active-creatve-tab
+                color: #111
+                background: #D9E8F8
+                border: solid #85B9ED 2px
+
+                &:hover
+                    border: solid #7fa8d1 2px
+
+            &::-webkit-scrollbar
+                position: relative
+                right: 5px
+                height: 5px
+                transition: all 0.5s
+                border: 5px solid transparent
+
+            &::-webkit-scrollbar-track
+                background: #E6E6E6
+                border-radius: 5px
+
+            &::-webkit-scrollbar-thumb
+                background: #BFBFBF
+                border-radius: 5px
+
+            &::-webkit-scrollbar-thumb:hover
+                background: #8C8C8C
+                cursor: pointer
+
+            &::-webkit-scrollbar:hover
+                width: 15px
+
+        form
+            div
+                transition: all 0.2s ease-in
+
+            #herder-news-container
+                display: flex
+                width: 100%
+                transform: scale(1)
+                flex-direction: row
+                margin: 10px 0
+                padding: 10px 9
+                width: 100%
+
+                .herder-news-arrow
+                    position: relative
+                    margin: auto 0
+
+                    i
+                        color: #111111
+                        font-size: 30px
+
+                #herder-news-conent
+                    content: ''
+                    display: flex
+                    flex-direction: row
+                    justify-content: space-between
+                    width: calc( 100% - 60px )
+                    max-width: calc( 100% - 60px )
+
+                    margin: 0 auto
+                    padding: 20px 0
+                    overflow: hidden
+                    scroll-behavior: smooth
+
+                    .herder-news-card
+                        width: 100rem
+                        min-width: 300px
+                        margin: 0 10px
+                        cursor: pointer
+
+                    .sk-chase
+                        margin: 60px auto
+
+        .edit-wlan
+            display: none
+
+        .edit-contact
+            display: none
