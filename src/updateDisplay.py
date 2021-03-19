@@ -12,9 +12,9 @@ picdir = os.path.join(os.path.dirname(
 
 try:
     epd = epd5in83bc.EPD()
-    print("init and Clear")
-    epd.init()
-    epd.Clear()
+    # print("init and Clear")
+    # epd.init()
+    # epd.Clear()
 
     HBlackimage = Image.open(os.path.join(picdir, sys.argv[1] + '.site.bmp'))
     HRYimage = Image.open(os.path.join(picdir, 'blank.bmp'))
