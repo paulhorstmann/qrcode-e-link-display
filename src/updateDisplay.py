@@ -8,7 +8,7 @@ import os
 from waveshare_epd import epd5in83bc
 
 picdir = os.path.join(os.path.dirname(
-    os.path.dirname(os.path.realpath(__file__))), 'assets/img')
+    os.path.dirname(os.path.realpath(__file__))), 'src/assets/img')
 
 try:
     epd = epd5in83bc.EPD()
