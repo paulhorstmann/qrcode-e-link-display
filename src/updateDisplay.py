@@ -1,9 +1,37 @@
-import sys
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
 from PIL import Image
+import time
+import sys
+import os
 
-print("Aktuelles Bild " + sys.argv[1])
+from waveshare_epd import epd5in83bc
 
-imgPath = './src/assets/img/' + sys.argv[1] + '.site.bmp'
+picdir = os.path.join(os.path.dirname(
+    os.path.dirname(os.path.realpath(__file__))), 'assets/img')
 
-img = Image.open(imgPath)
-# img.show()
+try:
+    epd = epd5in83bc.EPD()
+    print("init and Clear")
+    epd.init()
+    epd.Clear()
+    time.sleep(1)
+
+    HBlackimage = Image.open(os.path.join(picdir, sys.argv[1] + '.site.bmp'))
+    HRYimage = Image.open(os.path.join(picdir, 'blank.bmp'))
+    epd.display(epd.getbuffer(HBlackimage), epd.getbuffer(HRYimage))
+    time.sleep(2)
+
+    # print("Clear...")
+    # epd.init()
+    # epd.Clear()
+
+    epd.sleep()
+
+except IOError as e:
+    print(e)
+
+except KeyboardInterrupt:
+    print("ctrl + c:")
+    epd5in83bc.epdconfig.module_exit()
+    exit()

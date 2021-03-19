@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
+
 import textwrap
 import qrcode
 from PIL import Image, ImageFont, ImageDraw
