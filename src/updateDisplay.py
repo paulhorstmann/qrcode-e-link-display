@@ -15,16 +15,10 @@ try:
     print("init and Clear")
     epd.init()
     epd.Clear()
-    time.sleep(1)
 
     HBlackimage = Image.open(os.path.join(picdir, sys.argv[1] + '.site.bmp'))
     HRYimage = Image.open(os.path.join(picdir, 'blank.bmp'))
     epd.display(epd.getbuffer(HBlackimage), epd.getbuffer(HRYimage))
-    time.sleep(2)
-
-    # print("Clear...")
-    # epd.init()
-    # epd.Clear()
 
     epd.sleep()
 
