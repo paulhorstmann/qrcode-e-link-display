@@ -1,3 +1,5 @@
+const { spawn } = require('child_process');
+
 let app = spawn('python', [__dirname + './src/updateDisplay.py', actSlideImg])
 
 app.stdout.on('data', (data) => {
