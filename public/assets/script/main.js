@@ -19,7 +19,6 @@ loadHerderNews()
 
 async function loadPages() {
     $('#viewer-pages-dynamic').empty()
-
     await $.ajax({
         type: 'GET',
         url: '/api/getPages',
@@ -66,7 +65,8 @@ async function loadPages() {
                 $('#viewer-pages-dynamic').append(container)
                 i++
             });
-            console.log(data)
+            if (debug)
+                console.log(data)
         },
     })
 }
@@ -92,13 +92,20 @@ async function deletePage(id) {
 
 function changeOverlayer(id) {
     if (!overlayer) {
-        $('.overlayer').css('display', 'block')
+        $('.overlayer').fadeIn("fast")
         overlayer = true
     } else {
         loadPages()
-        $('.overlayer').css('display', 'none')
+        $('.overlayer').fadeOut("fast")
         overlayer = false
+        clearFrom()
     }
+}
+
+function clearFrom() {
+    $('input').val('')
+    $('textarea').val('')
+    currentEditTab = 'edit-herder-news-tab'
 }
 
 
@@ -114,7 +121,6 @@ $('.create-site-nav-tab').click(function () {
     let actedit = $('.active-creatve-tab')
     actedit.removeClass('active-creatve-tab')
 
-
     switch (actedit.attr("id")) {
         case 'edit-herder-news-tab':
             $('#herder-news-container').css('display', 'none')
@@ -125,7 +131,6 @@ $('.create-site-nav-tab').click(function () {
             break
 
         case ('edit-cloud-link-tab'):
-
             editUrlInp.attr('placeholder', 'https://beispiel-webseite.de/unterpfad')
             break
 

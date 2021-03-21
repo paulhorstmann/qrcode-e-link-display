@@ -15,26 +15,123 @@ const { spawn } = require('child_process');
 let pages = [
     {
         "type": "herder-news",
-        "header": "Anmeldungen zum neuen Schuljahr für die Klasse 5 und die EF",
+        "header": "Erste Seite",
         "icon": "Herder Logo",
         "description": "Wenn Sie zum Schuljahr 2021/22 Ihr Kind für die 5. Klasse oder für die EF bei uns anmelden möchten, erhalten Sie hier Anmeldeunterlagen und Informationen. Auch können Sie schon jetzt Termine für das Anmeldegespräch im Februar vereinbaren:",
         "qrcode": "https://herder-gymnasium-minden.de/wbs/?view=article&id=1060"
     },
     {
         "type": "cloud-link",
-        "header": "Das Herder kennenlernen",
+        "header": "Zweite Seite",
         "icon": "Herder Logo",
         "description": "Gern geben wir über unsere Videoclips und den Kurzfilm einen ersten Einblick in unsere Schule. Unser schulisches Konzept für die Erprobungsstufe lernen Sie über das Elternabend-Video kennen.\n",
         "qrcode": "https://herder-gymnasium-minden.de/wbs/?view=article&id=1047"
     },
     {
         "type": "herder-news",
-        "header": "Videokonferenz-Räume",
+        "header": "Dritte Seite",
         "icon": "Herder Logo",
         "description": "Hier befindet sich eine Liste mit Videokonferenz-Räumen der Kolleginnen und Kollegen. ",
         "qrcode": "https://herder-gymnasium-minden.de/wbs/?view=article&id=1058"
     }
 ]
+
+const createImage = async (imgData) => {
+    console.log('\n')
+    console.log(imgData)
+
+    const data = JSON.stringify(imgData);
+
+    console.log(data)
+
+    fs.writeFile('./src/assets/temp/temp.site.json', data, (err) => {
+        if (err) {
+            throw err
+        }
+    })
+
+    let pyapp = spawn('python', [__dirname + '/src/createImage.py'])
+
+    pyapp.stdout.on('data', (data) => {
+        console.log(`\nchild stdout:\n${data}`);
+    });
+
+    pyapp.stderr.on('data', (data) => {
+        console.error(`\nchild stderr:\n${data}`);
+    });
+}
+
+async function loadPages() {
+    for (i = 0; i < pages.length; i++) {
+        console.log(`[INFO] Create Page: ${i + 1}`)
+        pages[i]['site'] = i + 1
+        await createImage(pages[i])
+        // Prevent Multifileaccess
+        await new Promise(resolve => setTimeout(resolve, 500))
+    }
+}
+
+async function updateDisplay() {
+    let actSlideImg = 1
+    let intervalNum = 0
+    console.log('\n++ Starte Interval ++')
+
+    let runLoop = true
+    let done = false
+
+    while (runLoop) {
+
+        console.log(`\nAktuelle Seit: ${actSlideImg}\nAktuelle Länge: ${pages.length}`)
+        done = false
+        intervalNum++
+
+        if (pages.length >= 0) {
+            let pyapp = spawn('python', [__dirname + '/src/updateDisplay.py', actSlideImg])
+
+            pyapp.stdout.on('data', (data) => {
+                done = true
+                console.log(`Updater: ${data}`)
+            });
+
+            pyapp.stderr.on('data', (data) => {
+                console.error(`Updater: \n${data}`)
+            });
+        }
+
+        while (!done) {
+            await new Promise(resolve => setTimeout(resolve, 10000))
+        }
+
+        if (pages.length == 0) {
+            actSlideImg = 0
+        } else if (actSlideImg >= pages.length) {
+            actSlideImg = 1
+        } else {
+            actSlideImg++
+        }
+    }
+}
+
+function writeToStorage() {
+    const data = JSON.stringify(pages);
+
+    fs.writeFile('./temp/site.store.json', data, (err) => {
+        if (err) {
+            throw err
+        }
+    })
+}
+
+function recoverFromStorage() {
+    let rawdata = fs.readFileSync('./temp/site.store.json');
+    pages = JSON.parse(rawdata)
+}
+
+
+recoverFromStorage()
+loadPages()
+updateDisplay()
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -57,6 +154,9 @@ app.delete('/api/deletepage', (req, res) => {
     }
 
     res.status(200).send('Succsses')
+
+    loadPages()
+    writeToStorage()
 })
 
 app.get('/api/getherdernews', async (req, res) => {
@@ -75,6 +175,7 @@ app.post('/api/PostView', (req, res) => {
         req.body.site = pages.length
         createImage(req.body)
         res.status(200).send('Succsses')
+        writeToStorage()
     } catch (error) {
         res.status(500).send(error);
     }
@@ -83,7 +184,11 @@ app.post('/api/PostView', (req, res) => {
 const getPageHTML = async () => {
     const pageUrl = 'https://herder-gymnasium-minden.de'
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        headless: true,
+        executablePath: '/usr/bin/chromium-browser',
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
 
     const page = await browser.newPage();
 
@@ -100,10 +205,8 @@ const getPageHTML = async () => {
     try {
         articels.each((i, el) => {
             const article = $(el);
-            console.log(article.find('h2').find('a').html().trim().replace("amp;", ""))
 
             let headline = article.find('h2').find('a').html().trim().replace("amp;", "")
-            console.log(headline)
             let description = article.find('p')
 
             let link = article.find('h2').find('a').attr('href').split("&")[2]
@@ -123,9 +226,9 @@ const getPageHTML = async () => {
             }
 
 
-            console.log(headline)
-            console.log(description)
-            console.log(link)
+            console.log('[~GET~ INFO]' + headline)
+            console.log('[~GET~ INFO]' + description)
+            console.log('[~GET~ INFO]' + link)
 
             res.push({
                 headline: headline,
@@ -138,58 +241,12 @@ const getPageHTML = async () => {
         logMyErrors(e)
     }
 
-
     await browser.close();
 
     return res.slice(0, 6);
 }
 
-app.listen(port, () => console.log(`Läuft auf http://localhost:${port}`))
+app.listen(port, () => console.log(`\n++Webserver ist auf http://localhost:${port} gestartet ++`))
 
-const createImage = (imgData) => {
-    const data = JSON.stringify(imgData);
 
-    fs.writeFile('./src/assets/temp/temp.site.json', data, (err) => {
-        if (err) {
-            throw err
-        }
-    })
 
-    let pyapp = spawn('python', [__dirname + './src/createImage.py'])
-
-    pyapp.stdout.on('data', (data) => {
-        console.log(`child stdout: ${data}`);
-    });
-
-    pyapp.stderr.on('data', (data) => {
-        console.error(`child stderr:\n${data}`);
-    });
-}
-
-// const updateDisplay = async () => {
-//     let actSlideImg = 1
-//     idx = setInterval(function () {
-//         // return clearInterval(idx);
-
-//         if (pages.length != 0) {
-//             let app = spawn('python', [__dirname + './src/updateDisplay.py', actSlideImg])
-
-//             app.stdout.on('data', (data) => {
-//                 console.log(`child stdout: ${data}`);
-//             });
-
-//             app.stderr.on('data', (data) => {
-//                 console.error(`child stderr:\n${data}`);
-//             });
-//         }
-
-//         if (actSlideImg >= pages.length) {
-//             actSlideImg = 1
-//         } else {
-//             actSlideImg++
-//         }
-
-//     }, 10000)
-// }
-
-// updateDisplay()

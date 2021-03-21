@@ -15,6 +15,7 @@ try:
     # print("init and Clear")
     epd.init()
     # epd.Clear()
+    # time.sleep(1)
 
     HBlackimage = Image.open(os.path.join(picdir, sys.argv[1] + '.site.bmp'))
     HRYimage = Image.open(os.path.join(picdir, 'blank.bmp'))
@@ -29,3 +30,5 @@ except KeyboardInterrupt:
     print("ctrl + c:")
     epd5in83bc.epdconfig.module_exit()
     exit()
+
+print('done')

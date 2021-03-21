@@ -6,8 +6,11 @@ import qrcode
 from PIL import Image, ImageFont, ImageDraw
 
 import json
+import os
 
-with open('./src/assets/temp/temp.site.json', encoding='utf-8') as f:
+currentdir = os.path.dirname(os.path.realpath(__file__))
+
+with open(currentdir + '/assets/temp/temp.site.json') as f:
     data = json.load(f)
 
 
@@ -15,9 +18,10 @@ genre = data["type"]
 titel = data["header"]
 beschreibung = data["description"]
 urlString = data["qrcode"]
-
+ 
 genreList = {
     'herder-news': 'Herder News',
+    'cloud-link': 'Cloud Link',
     'link': 'Hyperlink',
     'wlan': 'Wlan Zugang',
     'contact': 'Kontakt'
@@ -29,8 +33,8 @@ imgWidth = 600
 imgHeight = 448
 
 # Roboto Schriftart
-pathToRoboto = "./public/assets/font/Roboto-Regular.ttf"
-genreFont = ImageFont.truetype("./public/assets/font/Roboto-Medium.ttf", 30)
+pathToRoboto = currentdir + "/../public/assets/font/Roboto-Regular.ttf"
+genreFont = ImageFont.truetype(currentdir + "/../public/assets/font/Roboto-Medium.ttf", 30)
 titelFont = ImageFont.truetype(pathToRoboto, 27)
 beschreibungFont = ImageFont.truetype(pathToRoboto, 17)
 
@@ -66,7 +70,7 @@ for line in lines:
         y_text += 25
 
 # Zeichne Icon
-img.paste(Image.open('./src/assets/img/icon/' +
+img.paste(Image.open(currentdir + '/assets/img/icon/' +
                      data["icon"].replace(' ', '') + '.bmp'), (525, 30))
 
 # Erstelle qrCode
@@ -83,4 +87,6 @@ qrImage = qrImage.resize((175, 175), Image.NEAREST)
 
 img.paste(qrImage, (380, 190))
 
-img.save('./src/assets/img/' + str(data["site"]) + '.site.bmp')
+img.save(currentdir + '/assets/img/' + str(data["site"]) + '.site.bmp')
+
+print('Done')
