@@ -1,5 +1,5 @@
 # Projektkurs
-Dieses Projekt ist im Rahmen des Projektkures am Herder Gymnasium Minden entstanden
+Dieses Projekt ist im Rahmen des Projektkurses am Herder Gymnasium Minden entstanden
 
 # Materialien zur Rekonstruktion
 - raspberry pi b (+)
