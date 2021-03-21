@@ -1,0 +1,22 @@
+{
+    "scripts": {
+        "dev": "nodemon server.js -e ejs,js,css,html,jpg,png,scss",
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "bootstrap": "^5.0.0-beta1",
+        "cheerio": "^1.0.0-rc.5",
+        "express": "^4.17.1",
+        "get-urls": "^10.0.0",
+        "node-fetch": "^2.6.1",
+        "nodemon": "^2.0.7",
+        "puppeteer": "^5.5.0",
+        "request": "^2.88.2"
+    },
+    "name": "QrCodeViewerUIService",
+    "version": "1.0.0",
+    "main": "server.js",
+    "license": "MIT",
+    "author": "Paul Horstmann <paulluishorstmann@gmail.com>"
+}
