@@ -1,13 +1,21 @@
+![Banner](https://paulhorstmann.de/pjk/banner.png)
+
 # Projektkurs
 Dieses Projekt ist im Rahmen des Projektkurses am Herder Gymnasium Minden entstanden
+
+# Dokumentation und Weiteres
+-> [Zu unserer Notion Dokumentation](https://www.notion.so/plhwspace/Projektkurs-df694e168e5748f59asd6efde59ddaf90) <-
+
+# Präsentation 
+[https://1drv.ms/p/s!AneQ45KkosrA0Ckngb60mZ67N0li?e=UcCSqq](https://1drv.ms/p/s!AneQ45KkosrA0Ckngb60mZ67N0li?e=UcCSqq)
 
 # Materialien zur Rekonstruktion
 - raspberry pi b (+)
 - 5.83inch e-Paper -> [Webseite](https://www.waveshare.com/wiki/5.83inch_e-Paper_HAT_(B))
 
 # Gruppenmitglieder
-- Dantar
-- Samual
+- Dantar Tilstra
+- Sam Hellermann
 - Paul Horstmann
 
 # Projekt aufsetzen
@@ -41,6 +49,10 @@ Dieses Projekt ist im Rahmen des Projektkurses am Herder Gymnasium Minden entsta
  ```
     sudo shutdown -r
 ```   
+
+## Physische Installation
+1. e-paper HAT auf SPI Pinns vom Pi stecken
+2. HAT mit Flachbandkabel mit Display verbinden 
 
 ## Pi Freigaben
 1. Port 80 freigebn
