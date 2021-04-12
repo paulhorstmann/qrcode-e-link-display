@@ -55,7 +55,7 @@ Dieses Projekt ist im Rahmen des Projektkurses am Herder Gymnasium Minden entsta
 2. HAT mit Flachbandkabel mit Display verbinden 
 
 ## Pi Freigaben
-1. Port 80 freigebn
+1. Port 80 freigeben
 ```
     sudo ufw allow 80
 ```
